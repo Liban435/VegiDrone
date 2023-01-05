@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="author" content="TODO">
+        <meta name="description" content="TODO">
+        <meta name="keywords" content="TODO">
+        <link rel="stylesheet" href="../style.css">
+        <title>Vegidrone Registration</title>
+
+        <script src="./script.js" defer></script>
+    </head>
+
+
+    <body>
+        <!-- Main Container -->
+        <div class="registration-main">
+
+            <!-- Main Logo -->
+            <a href="../index.php">
+                <div class="registration-logo">
+                    <img class="vd-logo" src="../res/vegidrone_logo_black.png" alt="vegidrone logo">
+                </div>
+            </a>
+            <!-- Signup Form -->
+            <div class="registration-box">
+                <h1 class="registration-head">Create account</h1>
+                <form action="./signup.php" method="post" name="regForm" onsubmit="return(validateRegistration());">
+                    <div class="container">
+                        <div class="registration-field">
+                            <label for="email"><b>Email*</b></label><br>
+                            <input class="registration-form-txt" type="text" id="reg-email" name="email" maxlength="64" required><br>
+                            <small class="error-txt" id="reg-email-err"></small>
+                        </div>
+                        
+                        <div class="registration-field">
+                            <label for="fname"><b>Name*</b></label><br>
+                            <input class="registration-form-txt" type="text" placeholder="First name" id="reg-fname" name="fname" maxlength="64" required>
+                            <small class="error-txt" id="reg-fname-err"></small>
+                            <br><br>
+                            <input class="registration-form-txt" type="text" placeholder="Last Name" id="reg-lname" name="lname" maxlength="64" required><br>
+                            <small class="error-txt" id="reg-lname-err"></small>
+                        </div>
+
+                        <div class="registration-field">
+                            <label for="pw"><b>Password*</b></label><br>
+                            <input class="registration-form-txt" type="password" placeholder="At least 8 characters" id="reg-pw" name="pw" maxlength="64" required><br>
+                            <small class="error-txt" id="reg-pw-err"></small>
+                        </div>
+
+                        <div class="registration-field">
+                            <label for="pw-repeat"><b>Repeat Password*</b></label><br>
+                            <input class="registration-form-txt" type="password"  id="reg-pw-repeat" name="pw-repeat" maxlength="64" required>
+                            <small class="error-txt" id="reg-pw-repeat-err"></small>
+                        </div>
+
+                        <button type="submit" class="signup-btn">Sign Up</button>
+
+                        <br><br><hr><br>
+                        <p>By clicking "sign up" you agree to our <a href="#">Terms & Privacy</a>.</p>
+                        
+                        <br><br><hr><br>
+                        <p>Already have an account? <a href="../login/">Sign in</a>.</p>
+                    </div>
+                  </form>
+            </div>
+
+        </div>
+
+
+    </body>
+</html>

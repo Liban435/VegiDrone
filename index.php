@@ -1,0 +1,160 @@
+<?php
+require "./dbhelper.php";
+
+session_start();
+
+function loggedIn() {
+    if (isset($_SESSION['username'])) {
+        return true;
+    }
+
+    $cookie = isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] : '';
+    if (!$cookie) {
+        return false;
+    }
+
+    list ($email, $token, $mac) = explode(':', $cookie);
+    if (!hash_equals(hash_hmac('sha256', $email . ':' . $token, "lMRxf3xggCa2Lxtb"), $mac)) {
+        return false;
+    }
+    $usertoken = getToken($email);
+    if (hash_equals($usertoken, $token)) {
+        $_SESSION['username'] = $email;
+        return true;
+    }
+}
+
+loggedIn();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="description" content="vegidrone home page">
+        <meta name="keywords" content="home vegidrone food homepage">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <title>Vegidrone</title>
+    </head>
+    <body>
+        <!-- Top Navigation Bar -->
+        <header class="topnav">
+
+            <!-- Main Logo -->
+            <a href="./">
+                <div class="logo nav-left">
+                    <img class="vd-logo" src="./res/vegidrone_logo.png" alt="vegidrone logo">
+                </div>
+            </a>
+
+            <!-- Deliver To -->
+            <!-- <div class="delivery nav-left">
+                <p id="location-txt">deliver to</p>
+            </div> -->
+
+            <!-- Search Bar -->
+            <form name="search" class="search nav-left">
+                <input class="search-bar" type="search">
+                <button type="submit" class="search-ico"></button>
+            </form>
+            
+            <!-- Login Button -->
+            <?php
+                $uname = "Sign In / Register";
+                $onclick = " onclick='showLogin();'";
+                if (isset($_SESSION['username'])) {
+                    $uname = $_SESSION['username'];
+                    $onclick = " onclick='showSignout();'";
+                }
+                echo "<div class='login-nav-btn' $onclick>\n
+                        <p class='welcome-txt'>Welcome</p>\n
+                        <b class='sign-in-txt'>$uname</b>\n
+                        </div>";
+            ?>
+
+            <!-- Login Window -->
+            <div id="login-window" class="login">
+                <span class="login-close" title="Close" onclick="closeLogin();">
+                    &times;
+                </span>
+                <div class="login-content">
+                    <form class="login-container" action="./login/login.php" method="post">
+                        <label for="un-input"><b>Email</b></label>
+                        <input id="un-input" name="email" class="login-txt" type="text" placeholder="Enter Email" required><br>
+                        <label for="pw-input"><b>Password</b></label>
+                        <input id="pw-input" name="pw" class="login-txt" placeholder="Enter Password" type="password" required><br>
+                        <button class="login-btn" type="submit">Login</button><br>
+                    </form>
+                    <form action="./register">
+                        <input class="register-btn" type="submit" value="Register" />
+                    </form>
+                    <!-- <a href="./register"><button class="register-btn">Register</button></a> -->
+                </div>
+            </div>
+            
+            <!-- Signout Window -->
+            <div id="signout-window" class="login">
+                <span class="login-close" title="Close" onclick="closeSignout();">
+                    &times;
+                </span>
+                <div class="signout-content">
+                    <form action="./logout.php" method="post">
+                        <button class="signout-btn" value="signout">Sign Out</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Cart Icon -->
+            <a href="./about/payment.html">
+                <div class="cart nav-right">
+                    <img class="cart-ico" src="./res/cart_ico_white.png" alt="cart icon">
+                    <p class="cart-text">Cart</p>
+                </div>
+            </a>
+ 
+        </header>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="botnav">
+
+            <!-- Browse Btn -->
+            <a class="botnav-btn" href="#">
+                <span >Browse</span>
+            </a>
+
+            <!-- About Btn -->
+            <a class="botnav-btn" href="./about/index.html">
+                <span >About</span>
+            </a>
+
+            <!-- Contact Btn -->
+            <a class="botnav-btn" href="./about/contact.html">
+                <span>Contact</span>
+            </a>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main">
+            <div class="main">
+                <a href="fruits.html">Fruits</a><br>
+                <a href="vegetables.html">Vegetables</a>
+            </div>
+        </div>
+
+        
+        <!--Future section for comments-->
+        <!-- <section class="comments"></section> -->
+        <footer>
+            <p class="copyright">Copyright &copy; VegiDrone 2022 - All Rights Reserved</p>
+            <nav>
+                <ul class="secondary-nav">
+                    <li><a href="./about">About Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Returns Policy</a></li>
+                </ul>
+            </nav>
+        </footer>
+    </body>
+</html>
